@@ -8,11 +8,10 @@ import (
 func doSquential(i, val interface{}) int {
 
 	args := reflect.ValueOf(i)
-	val := reflect.ValueOf(val)
 
-	switch val.Kind() {
+	switch reflect.ValueOf(val).Kind() {
 		case reflect.Int:
-			val = val.Int()
+			val = reflect.ValueOf(val).Int()
 
 			for index := 0; index < args.Len(); index++ {
 
@@ -22,7 +21,7 @@ func doSquential(i, val interface{}) int {
 
 			}
 		case reflect.Float64:
-			val = val.Float()
+			val = reflect.ValueOf(val).Float()
 
 			for index := 0; index < args.Len(); index++ {
 
