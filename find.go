@@ -1,39 +1,117 @@
 package slc
 
-func FindInt(data []int, val int) int {
-	var index int
+import (
+	"reflect"
+	"sort"
+)
 
-	for i := range data {
+func doSquential(i, val interface{}) int {
 
-		if data[i] == val {
-			index = i
-			break
-		}
+	args := reflect.ValueOf(i)
+	val := reflect.ValueOf(val)
 
-		if i == len(data)-1 {
-			index = -1
-		}
+	switch val.Kind() {
+		case reflect.Int:
+			val = val.Int()
 
+			for index := 0; index < args.Len(); index++ {
+
+				if (args.Index(index).Int() == val) {
+					return index
+				}
+
+			}
+		case reflect.Float64:
+			val = val.Float()
+
+			for index := 0; index < args.Len(); index++ {
+
+				if (args.Index(index).Float() == val) {
+					return index
+				}
+
+			}
 	}
+	
 
-	return index
+	return -1
+
 }
 
-func FindFloat(data []float64, val float64) int {
-	var index int
+func doBinaryInt(i []int, val int) int {
 
-	for i := range data {
+	args := i
+	sort.Ints(args)
 
-		if data[i] == val {
-			index = i
-			break
+	head := 0
+	tail := len(i)
+	mid := int((tail + head) / 2)
+
+	for index := 0; index < len(args); index ++ {
+		
+		if (args[mid] > val) {
+			tail = mid
+		}else{
+			head = mid
 		}
 
-		if i == len(data)-1 {
-			index = -1
+		mid = int((tail + head) / 2)
+
+		if ((head == tail-1) && (args[mid] == val)) {
+			return mid
 		}
 
 	}
 
-	return index
+	return -1
+
+}
+
+func doBinaryFloat(i []float64, val float64) int {
+
+	args := i
+	sort.Float64s(args)
+
+	head := 0
+	tail := len(i)
+	mid := int((tail + head) / 2)
+
+	for index := 0; index < len(args); index ++ {
+		
+		if (args[mid] > val) {
+			tail = mid
+		}else{
+			head = mid
+		}
+
+		mid = int((tail + head) / 2)
+
+		if ((head == tail-1) && (args[mid] == val)) {
+			return mid
+		}
+
+	}
+
+	return -1
+
+}
+
+func FindInts(data []int, val int) int {
+	
+	if (len(data) <= 10) {
+		return doSquential(data, val)
+	}
+
+	return doBinaryInt(data, val)
+
+}
+
+func FindFloats(data []float64, val float64) int {
+
+	if (len(data) <= 10) {
+		return doSquential(data, val)
+	}
+
+	return doBinaryFloat(data, val)
+
 }

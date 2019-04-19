@@ -1,6 +1,6 @@
 package slc
 
-func FilterInt(data []int, f func(int) bool) []int {
+func FilterInts(data []int, f func(int) bool) []int {
 	newData := []int{}
 
 	for i := range data {
@@ -14,7 +14,7 @@ func FilterInt(data []int, f func(int) bool) []int {
 	return newData
 }
 
-func FilterFloat(data []float64, f func(float64) bool) []float64 {
+func FilterFloats(data []float64, f func(float64) bool) []float64 {
 	newData := []float64{}
 
 	for i := range data {
